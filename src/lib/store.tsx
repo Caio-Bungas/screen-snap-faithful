@@ -142,7 +142,7 @@ type State = {
 
 const ESTADO_INICIAL: State = {
   session: null,
-  perfil: CANDIDATOS[0],
+  perfil: CANDIDATOS[0]!,
   jobs: JOBS_INICIAIS,
   curtidas: [],
   passadas: [],
