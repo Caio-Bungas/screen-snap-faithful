@@ -10,33 +10,122 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CandidatoRouteImport } from './routes/candidato'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as SobreRouteImport } from './routes/sobre'
+import { Route as CandidatoIndexRouteImport } from './routes/candidato.index'
+import { Route as CandidatoChatRouteImport } from './routes/candidato.chat'
+import { Route as CandidatoTransparenciaRouteImport } from './routes/candidato.transparencia'
+import { Route as CandidatoVagasRouteImport } from './routes/candidato.vagas'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CandidatoRoute = CandidatoRouteImport.update({
+  id: '/candidato',
+  path: '/candidato',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SobreRoute = SobreRouteImport.update({
+  id: '/sobre',
+  path: '/sobre',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CandidatoIndexRoute = CandidatoIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => CandidatoRoute,
+} as any)
+const CandidatoChatRoute = CandidatoChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
+  getParentRoute: () => CandidatoRoute,
+} as any)
+const CandidatoTransparenciaRoute = CandidatoTransparenciaRouteImport.update({
+  id: '/transparencia',
+  path: '/transparencia',
+  getParentRoute: () => CandidatoRoute,
+} as any)
+const CandidatoVagasRoute = CandidatoVagasRouteImport.update({
+  id: '/vagas',
+  path: '/vagas',
+  getParentRoute: () => CandidatoRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/candidato': typeof CandidatoRouteWithChildren
+  '/login': typeof LoginRoute
+  '/sobre': typeof SobreRoute
+  '/candidato/chat': typeof CandidatoChatRoute
+  '/candidato/transparencia': typeof CandidatoTransparenciaRoute
+  '/candidato/vagas': typeof CandidatoVagasRoute
+  '/candidato/': typeof CandidatoIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
+  '/sobre': typeof SobreRoute
+  '/candidato/chat': typeof CandidatoChatRoute
+  '/candidato/transparencia': typeof CandidatoTransparenciaRoute
+  '/candidato/vagas': typeof CandidatoVagasRoute
+  '/candidato': typeof CandidatoIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/candidato': typeof CandidatoRouteWithChildren
+  '/login': typeof LoginRoute
+  '/sobre': typeof SobreRoute
+  '/candidato/chat': typeof CandidatoChatRoute
+  '/candidato/transparencia': typeof CandidatoTransparenciaRoute
+  '/candidato/vagas': typeof CandidatoVagasRoute
+  '/candidato/': typeof CandidatoIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/candidato'
+    | '/login'
+    | '/sobre'
+    | '/candidato/chat'
+    | '/candidato/transparencia'
+    | '/candidato/vagas'
+    | '/candidato/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/login'
+    | '/sobre'
+    | '/candidato/chat'
+    | '/candidato/transparencia'
+    | '/candidato/vagas'
+    | '/candidato'
+  id:
+    | '__root__'
+    | '/'
+    | '/candidato'
+    | '/login'
+    | '/sobre'
+    | '/candidato/chat'
+    | '/candidato/transparencia'
+    | '/candidato/vagas'
+    | '/candidato/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CandidatoRoute: typeof CandidatoRouteWithChildren
+  LoginRoute: typeof LoginRoute
+  SobreRoute: typeof SobreRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +137,81 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/candidato': {
+      id: '/candidato'
+      path: '/candidato'
+      fullPath: '/candidato'
+      preLoaderRoute: typeof CandidatoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sobre': {
+      id: '/sobre'
+      path: '/sobre'
+      fullPath: '/sobre'
+      preLoaderRoute: typeof SobreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/candidato/': {
+      id: '/candidato/'
+      path: '/'
+      fullPath: '/candidato/'
+      preLoaderRoute: typeof CandidatoIndexRouteImport
+      parentRoute: typeof CandidatoRoute
+    }
+    '/candidato/chat': {
+      id: '/candidato/chat'
+      path: '/chat'
+      fullPath: '/candidato/chat'
+      preLoaderRoute: typeof CandidatoChatRouteImport
+      parentRoute: typeof CandidatoRoute
+    }
+    '/candidato/transparencia': {
+      id: '/candidato/transparencia'
+      path: '/transparencia'
+      fullPath: '/candidato/transparencia'
+      preLoaderRoute: typeof CandidatoTransparenciaRouteImport
+      parentRoute: typeof CandidatoRoute
+    }
+    '/candidato/vagas': {
+      id: '/candidato/vagas'
+      path: '/vagas'
+      fullPath: '/candidato/vagas'
+      preLoaderRoute: typeof CandidatoVagasRouteImport
+      parentRoute: typeof CandidatoRoute
+    }
   }
 }
 
+interface CandidatoRouteChildren {
+  CandidatoChatRoute: typeof CandidatoChatRoute
+  CandidatoTransparenciaRoute: typeof CandidatoTransparenciaRoute
+  CandidatoVagasRoute: typeof CandidatoVagasRoute
+  CandidatoIndexRoute: typeof CandidatoIndexRoute
+}
+
+const CandidatoRouteChildren: CandidatoRouteChildren = {
+  CandidatoChatRoute: CandidatoChatRoute,
+  CandidatoTransparenciaRoute: CandidatoTransparenciaRoute,
+  CandidatoVagasRoute: CandidatoVagasRoute,
+  CandidatoIndexRoute: CandidatoIndexRoute,
+}
+
+const CandidatoRouteWithChildren = CandidatoRoute._addFileChildren(
+  CandidatoRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CandidatoRoute: CandidatoRouteWithChildren,
+  LoginRoute: LoginRoute,
+  SobreRoute: SobreRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
