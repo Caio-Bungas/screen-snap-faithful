@@ -239,6 +239,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
         })),
       publicarVaga: (job) => setState((s) => ({ ...s, jobs: [job, ...s.jobs] })),
       escolherPlano: (plano) => setState((s) => ({ ...s, plano })),
+      salvarEtitometro: (nota) => setState((s) => ({ ...s, etitometro: nota })),
       atualizarPerfil: (p) => setState((s) => ({ ...s, perfil: { ...s.perfil, ...p } })),
       enviarMensagem: (jobId, texto) =>
         setState((s) => ({
