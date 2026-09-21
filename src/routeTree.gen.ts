@@ -21,6 +21,7 @@ import { Route as CandidatoIndexRouteImport } from './routes/candidato.index'
 import { Route as CandidatoChatRouteImport } from './routes/candidato.chat'
 import { Route as CandidatoTransparenciaRouteImport } from './routes/candidato.transparencia'
 import { Route as CandidatoVagasRouteImport } from './routes/candidato.vagas'
+import { Route as EmpresaIndexRouteImport } from './routes/empresa.index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -82,12 +83,17 @@ const CandidatoVagasRoute = CandidatoVagasRouteImport.update({
   path: '/vagas',
   getParentRoute: () => CandidatoRoute,
 } as any)
+const EmpresaIndexRoute = EmpresaIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => EmpresaRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/candidato': typeof CandidatoRouteWithChildren
   '/configuracoes': typeof ConfiguracoesRoute
-  '/empresa': typeof EmpresaRoute
+  '/empresa': typeof EmpresaRouteWithChildren
   '/login': typeof LoginRoute
   '/privacidade': typeof PrivacidadeRoute
   '/sobre': typeof SobreRoute
@@ -96,11 +102,11 @@ export interface FileRoutesByFullPath {
   '/candidato/transparencia': typeof CandidatoTransparenciaRoute
   '/candidato/vagas': typeof CandidatoVagasRoute
   '/candidato/': typeof CandidatoIndexRoute
+  '/empresa/': typeof EmpresaIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/configuracoes': typeof ConfiguracoesRoute
-  '/empresa': typeof EmpresaRoute
   '/login': typeof LoginRoute
   '/privacidade': typeof PrivacidadeRoute
   '/sobre': typeof SobreRoute
@@ -109,13 +115,14 @@ export interface FileRoutesByTo {
   '/candidato/transparencia': typeof CandidatoTransparenciaRoute
   '/candidato/vagas': typeof CandidatoVagasRoute
   '/candidato': typeof CandidatoIndexRoute
+  '/empresa': typeof EmpresaIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/candidato': typeof CandidatoRouteWithChildren
   '/configuracoes': typeof ConfiguracoesRoute
-  '/empresa': typeof EmpresaRoute
+  '/empresa': typeof EmpresaRouteWithChildren
   '/login': typeof LoginRoute
   '/privacidade': typeof PrivacidadeRoute
   '/sobre': typeof SobreRoute
@@ -124,6 +131,7 @@ export interface FileRoutesById {
   '/candidato/transparencia': typeof CandidatoTransparenciaRoute
   '/candidato/vagas': typeof CandidatoVagasRoute
   '/candidato/': typeof CandidatoIndexRoute
+  '/empresa/': typeof EmpresaIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -140,11 +148,11 @@ export interface FileRouteTypes {
     | '/candidato/transparencia'
     | '/candidato/vagas'
     | '/candidato/'
+    | '/empresa/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/configuracoes'
-    | '/empresa'
     | '/login'
     | '/privacidade'
     | '/sobre'
@@ -153,6 +161,7 @@ export interface FileRouteTypes {
     | '/candidato/transparencia'
     | '/candidato/vagas'
     | '/candidato'
+    | '/empresa'
   id:
     | '__root__'
     | '/'
@@ -167,13 +176,14 @@ export interface FileRouteTypes {
     | '/candidato/transparencia'
     | '/candidato/vagas'
     | '/candidato/'
+    | '/empresa/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CandidatoRoute: typeof CandidatoRouteWithChildren
   ConfiguracoesRoute: typeof ConfiguracoesRoute
-  EmpresaRoute: typeof EmpresaRoute
+  EmpresaRoute: typeof EmpresaRouteWithChildren
   LoginRoute: typeof LoginRoute
   PrivacidadeRoute: typeof PrivacidadeRoute
   SobreRoute: typeof SobreRoute
@@ -266,6 +276,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CandidatoVagasRouteImport
       parentRoute: typeof CandidatoRoute
     }
+    '/empresa/': {
+      id: '/empresa/'
+      path: '/'
+      fullPath: '/empresa/'
+      preLoaderRoute: typeof EmpresaIndexRouteImport
+      parentRoute: typeof EmpresaRoute
+    }
   }
 }
 
@@ -287,11 +304,22 @@ const CandidatoRouteWithChildren = CandidatoRoute._addFileChildren(
   CandidatoRouteChildren,
 )
 
+interface EmpresaRouteChildren {
+  EmpresaIndexRoute: typeof EmpresaIndexRoute
+}
+
+const EmpresaRouteChildren: EmpresaRouteChildren = {
+  EmpresaIndexRoute: EmpresaIndexRoute,
+}
+
+const EmpresaRouteWithChildren =
+  EmpresaRoute._addFileChildren(EmpresaRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CandidatoRoute: CandidatoRouteWithChildren,
   ConfiguracoesRoute: ConfiguracoesRoute,
-  EmpresaRoute: EmpresaRoute,
+  EmpresaRoute: EmpresaRouteWithChildren,
   LoginRoute: LoginRoute,
   PrivacidadeRoute: PrivacidadeRoute,
   SobreRoute: SobreRoute,
