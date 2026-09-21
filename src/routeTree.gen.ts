@@ -11,8 +11,12 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CandidatoRouteImport } from './routes/candidato'
+import { Route as ConfiguracoesRouteImport } from './routes/configuracoes'
+import { Route as EmpresaRouteImport } from './routes/empresa'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as PrivacidadeRouteImport } from './routes/privacidade'
 import { Route as SobreRouteImport } from './routes/sobre'
+import { Route as TermosRouteImport } from './routes/termos'
 import { Route as CandidatoIndexRouteImport } from './routes/candidato.index'
 import { Route as CandidatoChatRouteImport } from './routes/candidato.chat'
 import { Route as CandidatoTransparenciaRouteImport } from './routes/candidato.transparencia'
@@ -28,14 +32,34 @@ const CandidatoRoute = CandidatoRouteImport.update({
   path: '/candidato',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ConfiguracoesRoute = ConfiguracoesRouteImport.update({
+  id: '/configuracoes',
+  path: '/configuracoes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EmpresaRoute = EmpresaRouteImport.update({
+  id: '/empresa',
+  path: '/empresa',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrivacidadeRoute = PrivacidadeRouteImport.update({
+  id: '/privacidade',
+  path: '/privacidade',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SobreRoute = SobreRouteImport.update({
   id: '/sobre',
   path: '/sobre',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermosRoute = TermosRouteImport.update({
+  id: '/termos',
+  path: '/termos',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CandidatoIndexRoute = CandidatoIndexRouteImport.update({
@@ -62,8 +86,12 @@ const CandidatoVagasRoute = CandidatoVagasRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/candidato': typeof CandidatoRouteWithChildren
+  '/configuracoes': typeof ConfiguracoesRoute
+  '/empresa': typeof EmpresaRoute
   '/login': typeof LoginRoute
+  '/privacidade': typeof PrivacidadeRoute
   '/sobre': typeof SobreRoute
+  '/termos': typeof TermosRoute
   '/candidato/chat': typeof CandidatoChatRoute
   '/candidato/transparencia': typeof CandidatoTransparenciaRoute
   '/candidato/vagas': typeof CandidatoVagasRoute
@@ -71,8 +99,12 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/configuracoes': typeof ConfiguracoesRoute
+  '/empresa': typeof EmpresaRoute
   '/login': typeof LoginRoute
+  '/privacidade': typeof PrivacidadeRoute
   '/sobre': typeof SobreRoute
+  '/termos': typeof TermosRoute
   '/candidato/chat': typeof CandidatoChatRoute
   '/candidato/transparencia': typeof CandidatoTransparenciaRoute
   '/candidato/vagas': typeof CandidatoVagasRoute
@@ -82,8 +114,12 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/candidato': typeof CandidatoRouteWithChildren
+  '/configuracoes': typeof ConfiguracoesRoute
+  '/empresa': typeof EmpresaRoute
   '/login': typeof LoginRoute
+  '/privacidade': typeof PrivacidadeRoute
   '/sobre': typeof SobreRoute
+  '/termos': typeof TermosRoute
   '/candidato/chat': typeof CandidatoChatRoute
   '/candidato/transparencia': typeof CandidatoTransparenciaRoute
   '/candidato/vagas': typeof CandidatoVagasRoute
@@ -94,8 +130,12 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/candidato'
+    | '/configuracoes'
+    | '/empresa'
     | '/login'
+    | '/privacidade'
     | '/sobre'
+    | '/termos'
     | '/candidato/chat'
     | '/candidato/transparencia'
     | '/candidato/vagas'
@@ -103,8 +143,12 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/configuracoes'
+    | '/empresa'
     | '/login'
+    | '/privacidade'
     | '/sobre'
+    | '/termos'
     | '/candidato/chat'
     | '/candidato/transparencia'
     | '/candidato/vagas'
@@ -113,8 +157,12 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/candidato'
+    | '/configuracoes'
+    | '/empresa'
     | '/login'
+    | '/privacidade'
     | '/sobre'
+    | '/termos'
     | '/candidato/chat'
     | '/candidato/transparencia'
     | '/candidato/vagas'
@@ -124,8 +172,12 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CandidatoRoute: typeof CandidatoRouteWithChildren
+  ConfiguracoesRoute: typeof ConfiguracoesRoute
+  EmpresaRoute: typeof EmpresaRoute
   LoginRoute: typeof LoginRoute
+  PrivacidadeRoute: typeof PrivacidadeRoute
   SobreRoute: typeof SobreRoute
+  TermosRoute: typeof TermosRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -144,6 +196,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CandidatoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/configuracoes': {
+      id: '/configuracoes'
+      path: '/configuracoes'
+      fullPath: '/configuracoes'
+      preLoaderRoute: typeof ConfiguracoesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/empresa': {
+      id: '/empresa'
+      path: '/empresa'
+      fullPath: '/empresa'
+      preLoaderRoute: typeof EmpresaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login': {
       id: '/login'
       path: '/login'
@@ -151,11 +217,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/privacidade': {
+      id: '/privacidade'
+      path: '/privacidade'
+      fullPath: '/privacidade'
+      preLoaderRoute: typeof PrivacidadeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sobre': {
       id: '/sobre'
       path: '/sobre'
       fullPath: '/sobre'
       preLoaderRoute: typeof SobreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/termos': {
+      id: '/termos'
+      path: '/termos'
+      fullPath: '/termos'
+      preLoaderRoute: typeof TermosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/candidato/': {
@@ -210,8 +290,12 @@ const CandidatoRouteWithChildren = CandidatoRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CandidatoRoute: CandidatoRouteWithChildren,
+  ConfiguracoesRoute: ConfiguracoesRoute,
+  EmpresaRoute: EmpresaRoute,
   LoginRoute: LoginRoute,
+  PrivacidadeRoute: PrivacidadeRoute,
   SobreRoute: SobreRoute,
+  TermosRoute: TermosRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
