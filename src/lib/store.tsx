@@ -162,6 +162,7 @@ type Store = State & {
   passarVaga: (id: string) => void;
   publicarVaga: (job: Job) => void;
   escolherPlano: (plano: string) => void;
+  salvarEtitometro: (nota: number) => void;
   atualizarPerfil: (p: Partial<Candidate>) => void;
   enviarMensagem: (jobId: string, texto: string) => void;
 };
