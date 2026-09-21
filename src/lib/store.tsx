@@ -138,6 +138,7 @@ type State = {
   visualizacoes: number;
   plano: string;
   mensagens: Record<string, ChatMessage[]>;
+  etitometro: number | null;
 };
 
 const ESTADO_INICIAL: State = {
@@ -150,6 +151,7 @@ const ESTADO_INICIAL: State = {
   visualizacoes: 14,
   plano: "Período de teste",
   mensagens: {},
+  etitometro: null,
 };
 
 type Store = State & {
@@ -160,6 +162,7 @@ type Store = State & {
   passarVaga: (id: string) => void;
   publicarVaga: (job: Job) => void;
   escolherPlano: (plano: string) => void;
+  salvarEtitometro: (nota: number) => void;
   atualizarPerfil: (p: Partial<Candidate>) => void;
   enviarMensagem: (jobId: string, texto: string) => void;
 };
@@ -236,6 +239,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
         })),
       publicarVaga: (job) => setState((s) => ({ ...s, jobs: [job, ...s.jobs] })),
       escolherPlano: (plano) => setState((s) => ({ ...s, plano })),
+      salvarEtitometro: (nota) => setState((s) => ({ ...s, etitometro: nota })),
       atualizarPerfil: (p) => setState((s) => ({ ...s, perfil: { ...s.perfil, ...p } })),
       enviarMensagem: (jobId, texto) =>
         setState((s) => ({
