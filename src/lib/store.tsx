@@ -151,6 +151,7 @@ const ESTADO_INICIAL: State = {
   visualizacoes: 14,
   plano: "Período de teste",
   mensagens: {},
+  etitometro: null,
 };
 
 type Store = State & {
