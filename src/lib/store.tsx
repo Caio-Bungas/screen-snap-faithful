@@ -138,6 +138,7 @@ type State = {
   visualizacoes: number;
   plano: string;
   mensagens: Record<string, ChatMessage[]>;
+  etitometro: number | null;
 };
 
 const ESTADO_INICIAL: State = {
