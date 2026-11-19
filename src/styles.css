@@ -33,6 +33,8 @@
   --color-success-foreground: var(--success-foreground);
   --color-warning: var(--warning);
   --color-warning-foreground: var(--warning-foreground);
+  --color-cover-foreground: var(--cover-foreground);
+  --color-cover-muted: var(--cover-muted);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
@@ -56,6 +58,8 @@
 
 :root {
   --radius: 0.875rem;
+  --cover-foreground: oklch(0.21 0.02 285);
+  --cover-muted: oklch(0.39 0.02 285);
   --background: oklch(0.99 0.004 300);
   --foreground: oklch(0.21 0.02 285);
   --card: oklch(1 0 0);
@@ -138,6 +142,7 @@
 @layer base {
   * {
     border-color: var(--color-border);
+    letter-spacing: 0 !important;
   }
 
   body {
@@ -145,21 +150,18 @@
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    overflow-wrap: break-word;
   }
 }
 
 @utility surface-grid {
-  background-image:
-    radial-gradient(circle at 15% 10%, color-mix(in oklab, var(--primary) 16%, transparent), transparent 45%),
-    radial-gradient(circle at 85% 0%, color-mix(in oklab, var(--primary) 12%, transparent), transparent 40%);
+  background-color: var(--muted);
 }
 
 @utility text-gradient-brand {
-  background-image: linear-gradient(
-    100deg,
-    var(--primary),
-    color-mix(in oklab, var(--primary) 55%, oklch(0.75 0.16 320))
-  );
-  background-clip: text;
-  color: transparent;
+  color: var(--primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
 }

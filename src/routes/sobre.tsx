@@ -5,6 +5,8 @@ import { SiteHeader, SiteFooter } from "@/components/site-header";
 export const Route = createFileRoute("/sobre")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Quem somos — SelectRH" },
       {
         name: "description",
@@ -35,18 +37,20 @@ function Sobre() {
 
         <h2 className="mt-10 text-xl font-semibold">A base do estudo</h2>
         <p className="mt-3 text-muted-foreground">
-          Pesquisas clássicas das universidades de Chicago e Harvard mostraram que currículos
-          idênticos recebem respostas muito diferentes apenas por causa do nome do candidato. O
-          mesmo acontece com foto, idade, gênero e endereço. O SelectRH remove todos esses sinais da
-          etapa de triagem.
+          O estudo de Marianne Bertrand (Universidade de Chicago) e Sendhil Mullainathan (MIT),
+          publicado em 2004, enviou currículos fictícios equivalentes com nomes percebidos como de
+          pessoas brancas ou negras. Os primeiros receberam cerca de 50% mais retornos. Isso não
+          significa que ocultar nomes elimina todo viés, mas evidencia o impacto de sinais pessoais
+          na seleção. O SelectRH propõe uma triagem centrada em competências.
         </p>
 
+        <p className="mt-3 text-sm"><a className="text-primary underline underline-offset-4" href="https://www.nber.org/papers/w9873" target="_blank" rel="noopener noreferrer">Fonte: Are Emily and Greg More Employable than Lakisha and Jamal? (NBER)</a></p>
         <h2 className="mt-10 text-xl font-semibold">Como funciona</h2>
         <div className="mt-4 grid gap-4">
           {[
             [
               "Matching duplo-cego",
-              "Candidato e empresa demonstram interesse sem saber quem está do outro lado. O chat só abre após o match mútuo.",
+              "Empresas veem códigos anônimos; candidatos veem empresas identificadas por código até o match. O chat só abre após o match mútuo.",
             ],
             [
               "Etitômetro",

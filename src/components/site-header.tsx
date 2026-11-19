@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Moon, Sun, Settings, LogOut, ShieldCheck } from "lucide-react";
+import { Moon, Sun, Settings, LogOut, ShieldCheck, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useTheme } from "@/lib/theme";
 import { useStore } from "@/lib/store";
 
@@ -12,6 +13,7 @@ export function ThemeToggle() {
       size="icon"
       onClick={toggle}
       aria-label={theme === "dark" ? "Ativar modo claro" : "Ativar modo escuro"}
+      title={theme === "dark" ? "Ativar modo claro" : "Ativar modo escuro"}
       className="rounded-full"
     >
       {theme === "dark" ? <Sun className="size-4" /> : <Moon className="size-4" />}
@@ -62,9 +64,15 @@ export function SiteHeader() {
         </nav>
 
         <div className="ml-auto flex items-center gap-1">
+          <DropdownMenu><DropdownMenuTrigger asChild><Button size="icon" variant="ghost" className="md:hidden" aria-label="Abrir menu" title="Abrir menu"><Menu /></Button></DropdownMenuTrigger><DropdownMenuContent align="end">
+            <DropdownMenuItem asChild><Link to="/">Início</Link></DropdownMenuItem>
+            <DropdownMenuItem asChild><Link to="/sobre">Quem somos</Link></DropdownMenuItem>
+            {session && <DropdownMenuItem asChild><Link to={session.role === "empresa" ? "/empresa/painel" : "/candidato"}>Meu painel</Link></DropdownMenuItem>}
+            <DropdownMenuItem asChild><Link to="/configuracoes">Configurações</Link></DropdownMenuItem>
+          </DropdownMenuContent></DropdownMenu>
           <ThemeToggle />
           <Button variant="ghost" size="icon" className="rounded-full" asChild>
-            <Link to="/configuracoes" aria-label="Configurações">
+            <Link to="/configuracoes" aria-label="Configurações" title="Configurações">
               <Settings className="size-4" />
             </Link>
           </Button>

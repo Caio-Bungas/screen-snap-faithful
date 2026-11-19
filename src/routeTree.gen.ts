@@ -22,7 +22,10 @@ import { Route as CandidatoChatRouteImport } from './routes/candidato.chat'
 import { Route as CandidatoTransparenciaRouteImport } from './routes/candidato.transparencia'
 import { Route as CandidatoVagasRouteImport } from './routes/candidato.vagas'
 import { Route as EmpresaIndexRouteImport } from './routes/empresa.index'
+import { Route as EmpresaChatRouteImport } from './routes/empresa.chat'
 import { Route as EmpresaEtitometroRouteImport } from './routes/empresa.etitometro'
+import { Route as EmpresaPainelRouteImport } from './routes/empresa.painel'
+import { Route as EmpresaPerfilRouteImport } from './routes/empresa.perfil'
 import { Route as EmpresaPlanosRouteImport } from './routes/empresa.planos'
 import { Route as EmpresaVagasRouteImport } from './routes/empresa.vagas'
 
@@ -91,9 +94,24 @@ const EmpresaIndexRoute = EmpresaIndexRouteImport.update({
   path: '/',
   getParentRoute: () => EmpresaRoute,
 } as any)
+const EmpresaChatRoute = EmpresaChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
+  getParentRoute: () => EmpresaRoute,
+} as any)
 const EmpresaEtitometroRoute = EmpresaEtitometroRouteImport.update({
   id: '/etitometro',
   path: '/etitometro',
+  getParentRoute: () => EmpresaRoute,
+} as any)
+const EmpresaPainelRoute = EmpresaPainelRouteImport.update({
+  id: '/painel',
+  path: '/painel',
+  getParentRoute: () => EmpresaRoute,
+} as any)
+const EmpresaPerfilRoute = EmpresaPerfilRouteImport.update({
+  id: '/perfil',
+  path: '/perfil',
   getParentRoute: () => EmpresaRoute,
 } as any)
 const EmpresaPlanosRoute = EmpresaPlanosRouteImport.update({
@@ -119,7 +137,10 @@ export interface FileRoutesByFullPath {
   '/candidato/chat': typeof CandidatoChatRoute
   '/candidato/transparencia': typeof CandidatoTransparenciaRoute
   '/candidato/vagas': typeof CandidatoVagasRoute
+  '/empresa/chat': typeof EmpresaChatRoute
   '/empresa/etitometro': typeof EmpresaEtitometroRoute
+  '/empresa/painel': typeof EmpresaPainelRoute
+  '/empresa/perfil': typeof EmpresaPerfilRoute
   '/empresa/planos': typeof EmpresaPlanosRoute
   '/empresa/vagas': typeof EmpresaVagasRoute
   '/candidato/': typeof CandidatoIndexRoute
@@ -135,7 +156,10 @@ export interface FileRoutesByTo {
   '/candidato/chat': typeof CandidatoChatRoute
   '/candidato/transparencia': typeof CandidatoTransparenciaRoute
   '/candidato/vagas': typeof CandidatoVagasRoute
+  '/empresa/chat': typeof EmpresaChatRoute
   '/empresa/etitometro': typeof EmpresaEtitometroRoute
+  '/empresa/painel': typeof EmpresaPainelRoute
+  '/empresa/perfil': typeof EmpresaPerfilRoute
   '/empresa/planos': typeof EmpresaPlanosRoute
   '/empresa/vagas': typeof EmpresaVagasRoute
   '/candidato': typeof CandidatoIndexRoute
@@ -154,7 +178,10 @@ export interface FileRoutesById {
   '/candidato/chat': typeof CandidatoChatRoute
   '/candidato/transparencia': typeof CandidatoTransparenciaRoute
   '/candidato/vagas': typeof CandidatoVagasRoute
+  '/empresa/chat': typeof EmpresaChatRoute
   '/empresa/etitometro': typeof EmpresaEtitometroRoute
+  '/empresa/painel': typeof EmpresaPainelRoute
+  '/empresa/perfil': typeof EmpresaPerfilRoute
   '/empresa/planos': typeof EmpresaPlanosRoute
   '/empresa/vagas': typeof EmpresaVagasRoute
   '/candidato/': typeof CandidatoIndexRoute
@@ -174,7 +201,10 @@ export interface FileRouteTypes {
     | '/candidato/chat'
     | '/candidato/transparencia'
     | '/candidato/vagas'
+    | '/empresa/chat'
     | '/empresa/etitometro'
+    | '/empresa/painel'
+    | '/empresa/perfil'
     | '/empresa/planos'
     | '/empresa/vagas'
     | '/candidato/'
@@ -190,7 +220,10 @@ export interface FileRouteTypes {
     | '/candidato/chat'
     | '/candidato/transparencia'
     | '/candidato/vagas'
+    | '/empresa/chat'
     | '/empresa/etitometro'
+    | '/empresa/painel'
+    | '/empresa/perfil'
     | '/empresa/planos'
     | '/empresa/vagas'
     | '/candidato'
@@ -208,7 +241,10 @@ export interface FileRouteTypes {
     | '/candidato/chat'
     | '/candidato/transparencia'
     | '/candidato/vagas'
+    | '/empresa/chat'
     | '/empresa/etitometro'
+    | '/empresa/painel'
+    | '/empresa/perfil'
     | '/empresa/planos'
     | '/empresa/vagas'
     | '/candidato/'
@@ -319,11 +355,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EmpresaIndexRouteImport
       parentRoute: typeof EmpresaRoute
     }
+    '/empresa/chat': {
+      id: '/empresa/chat'
+      path: '/chat'
+      fullPath: '/empresa/chat'
+      preLoaderRoute: typeof EmpresaChatRouteImport
+      parentRoute: typeof EmpresaRoute
+    }
     '/empresa/etitometro': {
       id: '/empresa/etitometro'
       path: '/etitometro'
       fullPath: '/empresa/etitometro'
       preLoaderRoute: typeof EmpresaEtitometroRouteImport
+      parentRoute: typeof EmpresaRoute
+    }
+    '/empresa/painel': {
+      id: '/empresa/painel'
+      path: '/painel'
+      fullPath: '/empresa/painel'
+      preLoaderRoute: typeof EmpresaPainelRouteImport
+      parentRoute: typeof EmpresaRoute
+    }
+    '/empresa/perfil': {
+      id: '/empresa/perfil'
+      path: '/perfil'
+      fullPath: '/empresa/perfil'
+      preLoaderRoute: typeof EmpresaPerfilRouteImport
       parentRoute: typeof EmpresaRoute
     }
     '/empresa/planos': {
@@ -362,14 +419,20 @@ const CandidatoRouteWithChildren = CandidatoRoute._addFileChildren(
 )
 
 interface EmpresaRouteChildren {
+  EmpresaChatRoute: typeof EmpresaChatRoute
   EmpresaEtitometroRoute: typeof EmpresaEtitometroRoute
+  EmpresaPainelRoute: typeof EmpresaPainelRoute
+  EmpresaPerfilRoute: typeof EmpresaPerfilRoute
   EmpresaPlanosRoute: typeof EmpresaPlanosRoute
   EmpresaVagasRoute: typeof EmpresaVagasRoute
   EmpresaIndexRoute: typeof EmpresaIndexRoute
 }
 
 const EmpresaRouteChildren: EmpresaRouteChildren = {
+  EmpresaChatRoute: EmpresaChatRoute,
   EmpresaEtitometroRoute: EmpresaEtitometroRoute,
+  EmpresaPainelRoute: EmpresaPainelRoute,
+  EmpresaPerfilRoute: EmpresaPerfilRoute,
   EmpresaPlanosRoute: EmpresaPlanosRoute,
   EmpresaVagasRoute: EmpresaVagasRoute,
   EmpresaIndexRoute: EmpresaIndexRoute,

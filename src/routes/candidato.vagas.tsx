@@ -3,12 +3,15 @@ import { Heart, X, ShieldCheck } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { anonymousCompany } from "@/lib/recruitment";
 import { useStore } from "@/lib/store";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/candidato/vagas")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Vagas & Match — SelectRH" },
       {
         name: "description",
@@ -27,7 +30,7 @@ export const Route = createFileRoute("/candidato/vagas")({
 
 function Vagas() {
   const { jobs, curtidas, passadas, curtirVaga, passarVaga } = useStore();
-  const disponiveis = jobs.filter((j) => !curtidas.includes(j.id) && !passadas.includes(j.id));
+  const disponiveis = jobs.filter((j) => j.ativa !== false && !curtidas.includes(j.id) && !passadas.includes(j.id));
 
   return (
     <div className="space-y-6">
@@ -59,7 +62,7 @@ function Vagas() {
                 <div>
                   <CardTitle className="text-lg">{vaga.titulo}</CardTitle>
                   <p className="text-sm text-muted-foreground">
-                    {vaga.empresa} · {vaga.setor} · {vaga.modelo}
+                    {anonymousCompany(jobs.findIndex((j) => j.id === vaga.id))} · {vaga.setor} · {vaga.modelo}
                   </p>
                 </div>
                 <Badge className="rounded-full bg-success text-success-foreground">
@@ -99,7 +102,7 @@ function Vagas() {
                     );
                   }}
                 >
-                  <Heart className="size-4" /> Dar match
+                  <Heart className="size-4" /> Tenho interesse
                 </Button>
               </div>
             </CardContent>

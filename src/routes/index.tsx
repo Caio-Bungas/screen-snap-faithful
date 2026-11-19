@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { EyeOff, Gauge, Sparkles, ArrowRight, BarChart3, Lock } from "lucide-react";
+import workspace from "@/assets/selectrh-workspace.jpg";
+import { EyeOff, Gauge, Sparkles, ArrowRight, BarChart3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -8,6 +9,8 @@ import { SiteHeader, SiteFooter } from "@/components/site-header";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "SelectRH — Recrutamento ético às cegas" },
       {
         name: "description",
@@ -30,7 +33,7 @@ const pilares = [
     icone: EyeOff,
     titulo: "Matching duplo-cego",
     texto:
-      "Candidatos aparecem como um código anônimo. Nome, foto, idade, gênero e CEP só existem depois do match mútuo.",
+      "Candidatos aparecem como um código anônimo. O chat só abre quando ambos demonstram interesse; dados pessoais não são coletados no protótipo.",
   },
   {
     icone: Gauge,
@@ -51,60 +54,16 @@ function Home() {
     <div className="flex min-h-screen flex-col">
       <SiteHeader />
 
-      <section className="surface-grid border-b border-border/60">
-        <div className="mx-auto grid max-w-6xl gap-10 px-4 py-20 md:grid-cols-[1.1fr_0.9fr] md:items-center">
-          <div>
-            <Badge variant="secondary" className="rounded-full px-3 py-1">
-              Projeto de TCC · Escola Papa João Paulo
-            </Badge>
-            <h1 className="mt-5 text-4xl font-bold leading-tight tracking-tight md:text-5xl">
-              Currículos sem rosto, <span className="text-gradient-brand">decisões sem viés</span>
-            </h1>
-            <p className="mt-5 max-w-xl text-lg text-muted-foreground">
-              O SelectRH esconde tudo o que gera preconceito inconsciente — nome, foto, aparência,
-              raça, idade, gênero e bairro — e mostra à empresa apenas o que importa: habilidade.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Button size="lg" className="rounded-full" asChild>
-                <Link to="/login">
-                  Entrar na plataforma <ArrowRight className="size-4" />
-                </Link>
-              </Button>
-              <Button size="lg" variant="outline" className="rounded-full" asChild>
-                <Link to="/sobre">Como funciona</Link>
-              </Button>
-            </div>
+      <section className="relative isolate overflow-hidden border-b border-border">
+        <img src={workspace} width={1600} height={912} alt="Ambiente de entrevista com cadeiras iguais, pastas sem identificação e luz natural" className="absolute inset-0 -z-10 h-full w-full object-cover object-[65%_center]" fetchPriority="high" />
+        <div className="mx-auto max-w-6xl px-4 py-16 sm:py-20">
+          <div className="max-w-md space-y-5 text-cover-foreground">
+            <Badge variant="secondary">Projeto de TCC · Escola Papa João Paulo</Badge>
+            <h1 className="text-5xl font-bold leading-tight sm:text-6xl">SelectRH</h1>
+            <p className="text-2xl font-semibold leading-snug">Competências primeiro.<br />Rótulos nunca.</p>
+            <p className="max-w-sm text-base leading-relaxed text-cover-muted">Recrutamento ético às cegas. Sem nome, foto ou localização na triagem: cada oportunidade começa pelas habilidades.</p>
+            <div className="flex flex-wrap gap-3 pt-2"><Button size="lg" asChild><Link to="/login">Entrar na plataforma<ArrowRight /></Link></Button><Button size="lg" variant="outline" asChild><Link to="/sobre">Quem somos</Link></Button></div>
           </div>
-
-          <Card className="rounded-3xl border-border/70 shadow-[var(--shadow-glow)]">
-            <CardContent className="space-y-4 p-6">
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">Visão da empresa</span>
-                <Badge className="rounded-full">Anônimo</Badge>
-              </div>
-              <div className="rounded-2xl bg-muted/60 p-5">
-                <p className="text-2xl font-semibold">Candidato #4821</p>
-                <p className="text-sm text-muted-foreground">2 anos e 4 meses de experiência</p>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {["React", "TypeScript", "Acessibilidade", "Inglês avançado"].map((h) => (
-                    <Badge key={h} variant="secondary" className="rounded-full">
-                      {h}
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-              <div className="grid gap-2 text-sm text-muted-foreground">
-                {["Nome", "Foto", "Idade e gênero", "Bairro / CEP"].map((campo) => (
-                  <div
-                    key={campo}
-                    className="flex items-center gap-2 rounded-xl border border-dashed border-border px-3 py-2"
-                  >
-                    <Lock className="size-3.5" /> {campo} oculto até o match
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
         </div>
       </section>
 
@@ -128,8 +87,8 @@ function Home() {
       <section className="border-y border-border/60 bg-muted/40">
         <div className="mx-auto grid max-w-6xl gap-6 px-4 py-14 md:grid-cols-3">
           {[
-            ["50%", "mais chamadas para entrevista quando o nome é omitido (estudo Chicago/MIT)"],
-            ["1 em 3", "pessoas relatam ter sido descartadas por fatores alheios à competência"],
+            ["Às cegas", "triagem por competências, sem marcadores pessoais"],
+            ["2 interesses", "candidato e empresa confirmam antes de abrir a conversa"],
             ["100%", "das vagas publicadas passam pelo Etitômetro antes de ir ao ar"],
           ].map(([num, texto]) => (
             <div key={num}>
@@ -140,25 +99,7 @@ function Home() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-16">
-        <Card className="overflow-hidden rounded-3xl border-border/70">
-          <CardContent className="flex flex-col items-start gap-4 p-8 md:flex-row md:items-center md:justify-between">
-            <div>
-              <h2 className="text-xl font-semibold">Pronto para a demonstração?</h2>
-              <p className="mt-1 text-sm text-muted-foreground">
-                Use as contas de teste para entrar como candidato ou empresa em um clique.
-              </p>
-            </div>
-            <div className="flex gap-2">
-              <Button className="rounded-full" asChild>
-                <Link to="/login">
-                  <BarChart3 className="size-4" /> Acessar contas de teste
-                </Link>
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      </section>
+      <section className="mx-auto w-full max-w-6xl px-4 py-12"><div className="flex flex-wrap items-center justify-between gap-5"><div><h2 className="text-xl font-semibold">Oportunidades mais justas</h2><p className="mt-2 text-sm text-muted-foreground">Candidatos e empresas, conectados por competências.</p></div><Button asChild><Link to="/login"><BarChart3 />Acessar SelectRH</Link></Button></div></section>
 
       <SiteFooter />
     </div>

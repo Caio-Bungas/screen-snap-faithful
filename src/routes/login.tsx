@@ -13,6 +13,8 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/login")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Entrar — SelectRH" },
       {
         name: "description",
@@ -30,22 +32,22 @@ export const Route = createFileRoute("/login")({
 });
 
 function Login() {
-  const { entrar } = useStore();
+  const { entrar, atualizarEmpresa, company } = useStore();
   const navigate = useNavigate();
   const [cand, setCand] = useState({ email: "", senha: "" });
-  const [emp, setEmp] = useState({ email: "", senha: "", cnpj: "" });
+  const [emp, setEmp] = useState({ email: "", senha: "", cnpj: "", razaoSocial: "", setor: "" });
 
   const acessar = (role: "candidato" | "empresa", nome: string) => {
     entrar(role, nome);
     toast.success(`Bem-vindo(a), ${nome}!`);
-    navigate({ to: role === "candidato" ? "/candidato" : "/empresa" });
+    navigate({ to: role === "candidato" ? "/candidato" : "/empresa/painel" });
   };
 
   return (
     <div className="flex min-h-screen flex-col">
       <SiteHeader />
       <main className="surface-grid flex flex-1 items-center justify-center px-4 py-14">
-        <Card className="w-full max-w-lg rounded-3xl border-border/70 shadow-[var(--shadow-soft)]">
+        <Card className="w-full max-w-lg rounded-xl border-border/70 shadow-[var(--shadow-soft)]">
           <CardHeader>
             <CardTitle className="text-2xl">Entrar na plataforma</CardTitle>
             <p className="text-sm text-muted-foreground">
@@ -63,11 +65,11 @@ function Login() {
                 </TabsTrigger>
               </TabsList>
 
-              <TabsContent value="candidato" className="mt-6 space-y-4">
+              <TabsContent value="candidato" className="mt-6"><form className="space-y-4" onSubmit={(e) => { e.preventDefault(); acessar("candidato", "Candidato #4821"); }}>
                 <div className="space-y-2">
                   <Label htmlFor="c-email">E-mail</Label>
                   <Input
-                    id="c-email"
+                    id="c-email" type="email" required
                     value={cand.email}
                     onChange={(e) => setCand({ ...cand, email: e.target.value })}
                     placeholder="voce@email.com"
@@ -76,7 +78,7 @@ function Login() {
                 <div className="space-y-2">
                   <Label htmlFor="c-senha">Senha</Label>
                   <Input
-                    id="c-senha"
+                    id="c-senha" required
                     type="password"
                     value={cand.senha}
                     onChange={(e) => setCand({ ...cand, senha: e.target.value })}
@@ -84,6 +86,7 @@ function Login() {
                   />
                 </div>
                 <Button
+                  type="button"
                   variant="secondary"
                   className="w-full rounded-full"
                   onClick={() => setCand({ email: "candidato.teste@selectrh.app", senha: "123456" })}
@@ -92,26 +95,28 @@ function Login() {
                 </Button>
                 <Button
                   className="w-full rounded-full"
-                  onClick={() => acessar("candidato", "Candidato #4821")}
+                  type="submit"
                 >
                   Entrar como candidato
                 </Button>
-              </TabsContent>
+              </form></TabsContent>
 
-              <TabsContent value="empresa" className="mt-6 space-y-4">
+              <TabsContent value="empresa" className="mt-6"><form className="space-y-4" onSubmit={(e) => { e.preventDefault(); if (emp.cnpj.replace(/\D/g, "").length !== 14) { toast.error("Informe um CNPJ de teste com 14 dígitos."); return; } atualizarEmpresa({ razaoSocial: emp.razaoSocial.trim(), cnpj: emp.cnpj, setor: emp.setor.trim() }); acessar("empresa", emp.razaoSocial.trim()); }}>
                 <div className="space-y-2">
                   <Label htmlFor="e-email">E-mail corporativo</Label>
                   <Input
-                    id="e-email"
+                    id="e-email" type="email" required
                     value={emp.email}
                     onChange={(e) => setEmp({ ...emp, email: e.target.value })}
                     placeholder="rh@empresa.com.br"
                   />
                 </div>
+                <div className="space-y-2"><Label htmlFor="e-razao">Razão social</Label><Input id="e-razao" required value={emp.razaoSocial} onChange={(e) => setEmp({ ...emp, razaoSocial: e.target.value })} placeholder="Nome da empresa de teste" /></div>
+                <div className="space-y-2"><Label htmlFor="e-setor">Setor de atuação</Label><Input id="e-setor" required value={emp.setor} onChange={(e) => setEmp({ ...emp, setor: e.target.value })} placeholder="Tecnologia" /></div>
                 <div className="space-y-2">
                   <Label htmlFor="e-cnpj">CNPJ</Label>
                   <Input
-                    id="e-cnpj"
+                    id="e-cnpj" required
                     value={emp.cnpj}
                     onChange={(e) => setEmp({ ...emp, cnpj: e.target.value })}
                     placeholder="00.000.000/0001-00"
@@ -120,7 +125,7 @@ function Login() {
                 <div className="space-y-2">
                   <Label htmlFor="e-senha">Senha</Label>
                   <Input
-                    id="e-senha"
+                    id="e-senha" required
                     type="password"
                     value={emp.senha}
                     onChange={(e) => setEmp({ ...emp, senha: e.target.value })}
@@ -128,13 +133,16 @@ function Login() {
                   />
                 </div>
                 <Button
+                  type="button"
                   variant="secondary"
                   className="w-full rounded-full"
                   onClick={() =>
                     setEmp({
                       email: "rh@nimbustec.com.br",
                       senha: "123456",
-                      cnpj: "12.345.678/0001-90",
+                      cnpj: company.cnpj,
+                      razaoSocial: company.razaoSocial,
+                      setor: company.setor,
                     })
                   }
                 >
@@ -142,11 +150,11 @@ function Login() {
                 </Button>
                 <Button
                   className="w-full rounded-full"
-                  onClick={() => acessar("empresa", "Nimbus Tecnologia")}
+                  type="submit"
                 >
                   Entrar como empresa
                 </Button>
-              </TabsContent>
+              </form></TabsContent>
             </Tabs>
           </CardContent>
         </Card>

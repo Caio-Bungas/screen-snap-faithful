@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useStore } from "@/lib/store";
+import { PLANS, trialRemaining } from "@/lib/recruitment";
 
 export const Route = createFileRoute("/empresa/planos")({
   head: () => ({
@@ -27,100 +28,14 @@ export const Route = createFileRoute("/empresa/planos")({
   component: Planos,
 });
 
-const planos = [
-  {
-    nome: "Essencial",
-    preco: "R$ 0",
-    periodo: "período de teste",
-    itens: ["1 vaga ativa", "Perfis anônimos", "Etitômetro básico"],
-  },
-  {
-    nome: "Profissional",
-    preco: "R$ 349",
-    periodo: "por mês",
-    destaque: true,
-    itens: [
-      "10 vagas ativas",
-      "Relatórios de diversidade",
-      "Selo do Etitômetro nas vagas",
-      "Chat com match mútuo",
-    ],
-  },
-  {
-    nome: "Corporativo",
-    preco: "R$ 899",
-    periodo: "por mês",
-    itens: [
-      "Vagas ilimitadas",
-      "Consultoria de linguagem neutra",
-      "Auditoria de vieses",
-      "Suporte dedicado",
-    ],
-  },
-];
-
 function Planos() {
-  const { plano, escolherPlano } = useStore();
-
-  return (
-    <div className="space-y-6">
-      <header>
-        <h1 className="flex items-center gap-2 text-2xl font-semibold tracking-tight">
-          <Sparkles className="size-5 text-primary" /> Planos
-        </h1>
-        <p className="text-sm text-muted-foreground">
-          Plano atual: {plano}. Valores simulados para o protótipo acadêmico.
-        </p>
-      </header>
-
-      <div className="grid gap-4 md:grid-cols-3">
-        {planos.map((p) => {
-          const atual = plano === p.nome;
-          return (
-            <Card
-              key={p.nome}
-              className={
-                p.destaque
-                  ? "rounded-2xl border-primary/60 shadow-lg shadow-primary/10"
-                  : "rounded-2xl border-border/70"
-              }
-            >
-              <CardHeader className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-base">{p.nome}</CardTitle>
-                  {p.destaque && <Badge className="rounded-full">Mais escolhido</Badge>}
-                </div>
-                <p className="text-2xl font-semibold">
-                  {p.preco}{" "}
-                  <span className="text-sm font-normal text-muted-foreground">{p.periodo}</span>
-                </p>
-              </CardHeader>
-              <CardContent className="space-y-4 text-sm">
-                <ul className="space-y-2 text-muted-foreground">
-                  {p.itens.map((i) => (
-                    <li key={i} className="flex items-start gap-2">
-                      <Check className="mt-0.5 size-4 text-primary" /> {i}
-                    </li>
-                  ))}
-                </ul>
-                <Button
-                  className="w-full rounded-full"
-                  variant={atual ? "outline" : "default"}
-                  disabled={atual}
-                  onClick={() => {
-                    escolherPlano(p.nome);
-                    toast.success(`Plano ${p.nome} ativado`, {
-                      description: "Alteração simulada, sem cobrança real.",
-                    });
-                  }}
-                >
-                  {atual ? "Plano atual" : "Escolher plano"}
-                </Button>
-              </CardContent>
-            </Card>
-          );
-        })}
-      </div>
-    </div>
-  );
+  const { plano, escolherPlano, trialStart } = useStore();
+  return <div className="space-y-6"><header><h1 className="flex items-center gap-2 text-2xl font-semibold"><Sparkles className="size-5 text-primary" />Planos para empresas</h1><p className="mt-1 text-sm text-muted-foreground">Plano atual: {plano}. Demonstração acadêmica, sem cobranças reais.</p></header>
+    <div className="grid items-stretch gap-4 lg:grid-cols-3">{PLANS.map((p) => <Card key={p.nome} className={p.nome === "Premium" ? "rounded-xl border-primary" : "rounded-xl"}>
+      <CardHeader className="space-y-3"><div className="flex flex-wrap justify-between gap-2"><CardTitle className="text-lg">{p.nome}</CardTitle>{p.nome === "Premium" && <Badge>Completo</Badge>}</div><p className="text-3xl font-semibold">{p.preco.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}<span className="ml-1 text-sm font-normal text-muted-foreground">{p.preco ? "/mês" : "/30 dias"}</span></p></CardHeader>
+      <CardContent className="flex flex-col gap-5"><ul className="min-h-28 space-y-3 text-sm text-muted-foreground">{p.itens.map((i) => <li key={i} className="flex gap-2"><Check className="size-4 shrink-0 text-primary" />{i}</li>)}</ul>
+        <Button className="w-full" variant={plano === p.nome ? "outline" : "default"} disabled={plano === p.nome || (p.nome === "Período de Teste" && trialRemaining(trialStart) === 0)} onClick={() => { const error = escolherPlano(p.nome); if (error) { toast.error(error); return; } toast.success(`Plano ${p.nome} selecionado`, { description: "Simulação sem cobrança real." }); }}>{plano === p.nome ? "Plano atual" : p.nome === "Período de Teste" && trialRemaining(trialStart) === 0 ? "Teste encerrado" : "Escolher plano"}</Button>
+      </CardContent></Card>)}</div>
+    {plano === "Período de Teste" && <p className="text-sm text-muted-foreground">{trialRemaining(trialStart)} de 30 dias de teste restantes.</p>}
+  </div>;
 }
